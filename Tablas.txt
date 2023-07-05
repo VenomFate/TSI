@@ -1,0 +1,80 @@
+CREATE TABLE Proveedor(
+    Codigo_Proveedor INTEGER PRIMARY KEY AUTOINCREMENT,
+    Nombre VARCHAR(30),
+    Direccion VARCHAR(30)
+);
+
+CREATE TABLE Telefono(
+    ID_Telefono INTEGER PRIMARY KEY AUTOINCREMENT,
+    Codigo_Proveedor INTEGER,
+    Fono INTEGER,
+    Tipo_Fono VARCHAR(30),
+    FOREIGN KEY(Codigo_Proveedor) REFERENCES Proveedor(Codigo_Proveedor)
+);
+
+CREATE TABLE Marca(
+    ID_Marca INTEGER PRIMARY KEY AUTOINCREMENT,
+    Marca VARCHAR(30)
+);
+
+CREATE TABLE Materia_Prima(
+    Cod_Materia INTEGER PRIMARY KEY AUTOINCREMENT,
+    ID_Marca INTEGER,
+    Nombre VARCHAR(30),
+    Stock INTEGER,
+    Stock_Critico INTEGER,
+    FOREIGN KEY(ID_Marca) REFERENCES Marca(ID_Marca)
+);
+
+CREATE TABLE Compra(
+    Codigo_Proveedor INTEGER,
+    Cod_Materia INTEGER,
+    Cantidad_Compra INTEGER,
+    Precio INTEGER,
+    Fecha_Compra VARCHAR(30),
+    PRIMARY KEY(Codigo_Proveedor, Cod_Materia),
+    FOREIGN KEY(Codigo_Proveedor) REFERENCES Proveedor(Codigo_Proveedor),
+    FOREIGN KEY(Cod_Materia) REFERENCES Materia_Prima(Cod_Materia)
+);
+
+CREATE TABLE Producto(
+    ID_Producto INTEGER PRIMARY KEY AUTOINCREMENT,
+    Producto VARCHAR(30)
+);
+
+CREATE TABLE Requiere(
+    ID_Producto INTEGER,
+    Cod_Materia INTEGER,
+    Cantidad_Utilizada INTEGER,
+    Unidad_Medida VARCHAR(30),
+    Fecha_Requerida VARCHAR(30),
+    PRIMARY KEY(ID_Producto, Cod_Materia),
+    FOREIGN KEY(ID_Producto) REFERENCES Producto(ID_Producto),
+    FOREIGN KEY(Cod_Materia) REFERENCES Materia_Prima(Cod_Materia)
+);
+
+CREATE TABLE Cliente(
+    ID_Cliente INTEGER PRIMARY KEY AUTOINCREMENT,
+    Nombre VARCHAR(30),
+    Direccion VARCHAR(30),
+    Correo VARCHAR(30)
+);
+
+CREATE TABLE Venta(
+    ID_Cliente INTEGER,
+    ID_Producto INTEGER,
+    Cantidad_Utilizada INTEGER,
+    Unidad_Medida VARCHAR(30),
+    Fecha_Requerida VARCHAR(30),
+    PRIMARY KEY(ID_Cliente, ID_Producto),
+    FOREIGN KEY(ID_Cliente) REFERENCES Cliente(ID_Cliente),
+    FOREIGN KEY(ID_Producto) REFERENCES Producto(ID_Producto)
+);
+
+CREATE TABLE Telefono_Cliente(
+    ID_Telefono_Cliente INTEGER PRIMARY KEY AUTOINCREMENT,
+    ID_Cliente INTEGER,
+    Fono INTEGER,
+    Tipo_Fono VARCHAR(30),
+    FOREIGN KEY(ID_Cliente) REFERENCES Cliente(ID_Cliente)
+);

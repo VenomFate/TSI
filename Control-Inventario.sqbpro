@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/josec/OneDrive/Escritorio/BD-SQLite/SI.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="2675"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,7:mainCliente"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Cliente" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="101"/><column index="2" value="78"/><column index="3" value="90"/><column index="4" value="67"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">CREATE TABLE Proveedor(
+    Codigo_Proveedor INTEGER PRIMARY KEY AUTOINCREMENT,
+    Nombre VARCHAR(30),
+    Direccion VARCHAR(30)
+);
+
+CREATE TABLE Telefono(
+    ID_Telefono INTEGER PRIMARY KEY AUTOINCREMENT,
+    Codigo_Proveedor INTEGER,
+    Fono INTEGER,
+    Tipo_Fono VARCHAR(30),
+    FOREIGN KEY(Codigo_Proveedor) REFERENCES Proveedor(Codigo_Proveedor)
+);
+
+CREATE TABLE Marca(
+    ID_Marca INTEGER PRIMARY KEY AUTOINCREMENT,
+    Marca VARCHAR(30)
+);
+
+CREATE TABLE Materia_Prima(
+    Cod_Materia INTEGER PRIMARY KEY AUTOINCREMENT,
+    ID_Marca INTEGER,
+    Nombre VARCHAR(30),
+    Stock INTEGER,
+    Stock_Critico INTEGER,
+    FOREIGN KEY(ID_Marca) REFERENCES Marca(ID_Marca)
+);
+
+CREATE TABLE Compra(
+    Codigo_Proveedor INTEGER,
+    Cod_Materia INTEGER,
+    Cantidad_Compra INTEGER,
+    Precio INTEGER,
+    Fecha_Compra VARCHAR(30),
+    PRIMARY KEY(Codigo_Proveedor, Cod_Materia),
+    FOREIGN KEY(Codigo_Proveedor) REFERENCES Proveedor(Codigo_Proveedor),
+    FOREIGN KEY(Cod_Materia) REFERENCES Materia_Prima(Cod_Materia)
+);
+
+CREATE TABLE Producto(
+    ID_Producto INTEGER PRIMARY KEY AUTOINCREMENT,
+    Producto VARCHAR(30)
+);
+
+CREATE TABLE Requiere(
+    ID_Producto INTEGER,
+    Cod_Materia INTEGER,
+    Cantidad_Utilizada INTEGER,
+    Unidad_Medida VARCHAR(30),
+    Fecha_Requerida VARCHAR(30),
+    PRIMARY KEY(ID_Producto, Cod_Materia),
+    FOREIGN KEY(ID_Producto) REFERENCES Producto(ID_Producto),
+    FOREIGN KEY(Cod_Materia) REFERENCES Materia_Prima(Cod_Materia)
+);
+
+CREATE TABLE Cliente(
+    ID_Cliente INTEGER PRIMARY KEY AUTOINCREMENT,
+    Nombre VARCHAR(30),
+    Direccion VARCHAR(30),
+    Correo VARCHAR(30)
+);
+
+CREATE TABLE Venta(
+    ID_Cliente INTEGER,
+    ID_Producto INTEGER,
+    Cantidad_Utilizada INTEGER,
+    Unidad_Medida VARCHAR(30),
+    Fecha_Requerida VARCHAR(30),
+    PRIMARY KEY(ID_Cliente, ID_Producto),
+    FOREIGN KEY(ID_Cliente) REFERENCES Cliente(ID_Cliente),
+    FOREIGN KEY(ID_Producto) REFERENCES Producto(ID_Producto)
+);
+
+CREATE TABLE Telefono_Cliente(
+    ID_Telefono_Cliente INTEGER PRIMARY KEY AUTOINCREMENT,
+    ID_Cliente INTEGER,
+    Fono INTEGER,
+    Tipo_Fono VARCHAR(30),
+    FOREIGN KEY(ID_Cliente) REFERENCES Cliente(ID_Cliente)
+);</sql><current_tab id="0"/></tab_sql></sqlb_project>
